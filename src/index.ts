@@ -17,8 +17,13 @@ interface AfterCallbackContext<TFunction extends AnyFunction> extends PatchCallb
 	};
 	returnValue: ReturnType<TFunction>;
 }
-type BeforeCallback<TFunction extends AnyFunction> = (context: BeforeCallbackContext<TFunction>) => typeof snoopycall;
-type AfterCallback<TFunction extends AnyFunction> = (context: AfterCallbackContext<TFunction>) => typeof snoopycall;
+type PromisableCallback<TFunction extends AnyFunction> = ReturnType<TFunction> extends PromiseLike<any>
+	? PromiseLike<typeof snoopycall>
+	: typeof snoopycall;
+
+type ConfigCallback<TFunction extends AnyFunction, TContext> = (context: TContext) => PromisableCallback<TFunction>;
+type BeforeCallback<TFunction extends AnyFunction> = ConfigCallback<TFunction, BeforeCallbackContext<TFunction>>;
+type AfterCallback<TFunction extends AnyFunction> = ConfigCallback<TFunction, AfterCallbackContext<TFunction>>;
 
 interface PatchConfig<T extends AnyFunction> {
 	before?: BeforeCallback<T>;
@@ -39,3 +44,4 @@ class Snoopy {
 	// 	}
 	// ): void {}
 }
+export default new Snoopy();
