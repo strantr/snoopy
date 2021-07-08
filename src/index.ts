@@ -187,7 +187,7 @@ class Snoopy {
 	// 	}
 	// ): void {}
 }
-// export default new Snoopy();
+export default new Snoopy();
 
 // new Snoopy().event(window, "xxxxx");
 
