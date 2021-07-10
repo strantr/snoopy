@@ -1,5 +1,4 @@
-type KeysOfType<TObj, TKeyType> = { [k in keyof TObj]: TObj[k] extends TKeyType ? k : never }[keyof TObj];
-type AnyFunction = (...args: any) => any;
+import { AnyFunction, KeysOfType, OverloadedParameters } from "./utilityTypes";
 const snoopycall = Symbol("🕵️‍♂️");
 
 interface PatchCallbackContext<TFunction extends AnyFunction> {
